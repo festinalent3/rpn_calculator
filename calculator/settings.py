@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from .keys import SECRET_KEY
+
+try:
+    from .keys import SECRET_KEY_DEV
+except:
+    SECRET_KEY_DEV = ''
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +26,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY
+
+SECRET_KEY = os.environ.get('SECRET_KEY_PROD', SECRET_KEY_DEV)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+
+ALLOWED_HOSTS = ['rpn-calculus.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
