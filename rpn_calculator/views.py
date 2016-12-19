@@ -9,5 +9,12 @@ from .models import calculate
 def calculator(request, q=None, *args, **kwargs):
     print(request.GET['q'])
     if request.method == "GET":
-    	return JsonResponse({'error': 'false', 
-    		'result': calculate(request.GET['q'])})
+        response = {'error': False, 'result': ''}
+
+        try:
+            response['result'] = calculate(request.GET['q'])
+        except Exception as e:
+            response['result'] = str(e)
+            response['error'] = True
+
+        return JsonResponse(response)

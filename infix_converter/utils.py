@@ -13,9 +13,21 @@ def add_spaces(string, newstring=''):
         else: newstring += string[i] + ' '
     return newstring.rstrip() #remove whitespace from end of string
 
+def check_if_valid_expression(numbers, helper):
+    leftp = 0
+    rightp = 0
+    
+    for val in numbers.split(' '):
+        if val not in helper.OPERATIONS and not val.isdigit(): raise ValueError('You must use numbers and operations. The following is not allowed: ' + str(val) + '. Allowed operations are: ' + str(helper.OPERATIONS))
+        if val == '(': leftp+=1
+        if val == ')': rightp+=1
+    
+    if rightp!= leftp: raise Exception('Must use equal no of parantheses silly!')    
+
+
 class InfixConverterHelpers():
 
-    OPERATIONS = ['(', '-', '+', '*', '/']
+    OPERATIONS = ['(', '-', '+', '*', '/', ')']
 
     def pop_stack_until_valid(self, stack, expression, val):
         while not self.should_add_to_stack(val, stack): expression.append(stack.pop()) #add to expression if it does not belong on stack
@@ -34,3 +46,5 @@ class InfixConverterHelpers():
         lower = ['-', '+']
         higher = ['/', '*']
         return False if first in higher and second in lower else True # actual precedence check
+
+
