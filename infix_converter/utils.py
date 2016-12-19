@@ -7,9 +7,10 @@ def convert_from_base64(string):
 
 def add_spaces(string, newstring=''):
     string = "".join(string.split())
-    
+
     for i, c in enumerate(string):
-        if string[i].isdigit() and string[i+1].isdigit(): newstring += string[i]
+        if i+1 not in range(len(string)-1): newstring+= string[i] + ' '
+        elif string[i].isdigit() and string[i+1].isdigit(): newstring += string[i]
         else: newstring += string[i] + ' '
     return newstring.rstrip() #remove whitespace from end of string
 
